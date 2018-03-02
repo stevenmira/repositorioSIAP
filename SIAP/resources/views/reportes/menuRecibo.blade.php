@@ -51,11 +51,11 @@
         			</div>
     			</div>
                 <div class="form-group col-md-1 ">
-                    <label>Saldo ACTUAL</label>
+                    <label>N° Recibo</label>
                 </div>
                 <div class="form-group col-md-1">
                     <div class="input-group">
-                        {!! Form::text('salmon', $salmon, ['class' => 'form-control' , 'required' => 'required', 'autofocus'=>'on']) !!}
+                        {!! Form::text('recibo', $reciboAct->numerico, ['class' => 'form-control' , 'required' => 'required', 'autofocus'=>'on']) !!}
                     </div>
                 </div>
 			</div>
@@ -71,12 +71,13 @@
             			<input style="width: 150px;" type="number" step="any" class="form-control" name="recargo" id="recargo" placeholder="Ingresar monto..">
         			</div>
     			</div>
+                
                 <div class="form-group col-md-1 ">
-                    <label>N° Recibo</label>
+                    <label>Saldo ACTUAL</label>
                 </div>
                 <div class="form-group col-md-1">
                     <div class="input-group">
-                        {!! Form::text('recibo', $reciboAct->numerico, ['class' => 'form-control' , 'required' => 'required', 'autofocus'=>'on']) !!}
+                        {!! Form::text('salmon', $salmon, ['class' => 'form-control' , 'required' => 'required', 'autofocus'=>'on']) !!}
                     </div>
                 </div>
 			</div>
