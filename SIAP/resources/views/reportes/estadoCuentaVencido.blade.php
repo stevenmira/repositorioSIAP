@@ -63,8 +63,8 @@
 			<tbody>
 				<tr>
 					<td style="border: 1px solid #333; height: 30px;" align="center"><span style="font-size: 10px;">1</span></td>
-					<td style="border: 1px solid #333" align="center"><span style="font-size: 10px;">SALDO PENDIENTE DE UNA CUOTA DE --- </span></td>
-					<td style="border: 1px solid #333" align="center"><span style="font-size: 10px;">1</span></td>
+					<td style="border: 1px solid #333" align="center"><span style="font-size: 10px;">SALDO PENDIENTE DE {{$estadoc->diaspendientes}} CUOTA DE {{$estadoc->totalpendiente}} </span></td>
+					<td style="border: 1px solid #333" align="center"><span style="font-size: 10px;">{{$estadoc->diaspendientes}}</span></td>
 					<td style="border: 1px solid #333; border-right: 0px;"><span style="font-size: 13px;">&nbsp;&nbsp;$</span></td>
 					<td style="border: 1px solid #333; border-left: 0px;" align="right"><span style="font-size: 13px;">{{$estadoc->totalpendiente}}&nbsp;&nbsp;</span></td>
 					<td style="border: 1px solid #333; border-right: 0px;" align="center"><span style="font-size: 10px;"></span></td>
@@ -158,7 +158,7 @@
 					<td style="border: 1px solid #333; border-right: 0px;"><span style="font-size: 13px;">&nbsp;&nbsp;$</span></td>
 					<td style="border: 1px solid #333; border-left: 0px;" align="right"><span style="font-size: 13px;">{{$estadoc->gastosadmon+$estadoc->gastosnotariales}}&nbsp;&nbsp;</span></td>
 					<td style="border: 1px solid #333; border-right: 0px;"><span style="font-size: 13px;">&nbsp;&nbsp;$</span></td>
-					<td style="border: 1px solid #333; border-left: 0px;" align="right"><span style="font-size: 13px;">{{$estadoc->totalpendiente+$estadoc->totalcuotasdeuda+$estadoc->ultimacuota+$estadoc->mora+$estadoc->gastosadmon+$estadoc->gastosnotariales}}&nbsp;&nbsp;</span></td>
+					<td style="border: 1px solid #333; border-left: 0px;" align="right"><span style="font-size: 13px;">{{$estadoc->total}}&nbsp;&nbsp;</span></td>
 					<td style="border: 1px solid #333;" align="center"><span style="font-size: 10px;"></span></td>	
 				</tr>
 			</tbody>
