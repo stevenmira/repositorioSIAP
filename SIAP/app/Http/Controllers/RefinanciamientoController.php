@@ -76,6 +76,14 @@ class RefinanciamientoController extends Controller
              $count = Cuenta::where('idnegocio',$request->get('idnegocio'))->where('estado','=','ACTIVO')->first();
             $prestamo = Prestamo::where('idprestamo',$count->idprestamo)->first();
             $negocio = Negocio::where('idnegocio',$request->get('idnegocio'))->first();
+
+            if($resultado=='excede')
+            {
+                Session::flash('ban',1);
+                Session::flash('error8', "El monto a refinanciar excede el total capital del credito anterior");
+                return view('tipoCredito.fracaso', ["clientes" => $clientes, "usuarioactual" => $usuarioactual,"cuenta"=>$cuenta->idcuenta]);
+            }
+
             return view('tipoCredito.exito', ["clientes" => $clientes, "usuarioactual" => $usuarioactual,"cuenta"=> $count,"persona"=>$cliente,"prestamo"=>$prestamo,"negocio"=>$negocio]);
         } else {
             Session::flash('ban',1);
@@ -129,15 +137,9 @@ class RefinanciamientoController extends Controller
 
         $interesDiario = Self::getInteres($tipo,$montoTotal);
 
-        //se comprueba el limite de la cuota cuando los creditos son muy grandes
-        if($interesDiario>$cuota)
+        if($saldoCapitalCreditoAnterior>$monto)
         {
-            Session::flash('ban',1);
-            //$prestamo = Prestamo::where('idprestamo',$idPrestamo)->delete($idPrestamo);
-            Session::flash('error5', "redefinir la Cuota, debe ser mayor de $".$interesDiario. "(Sugerencia de cuota: $".($interesDiario + 10)." )");
-            
-            return view('tipoCredito.fracaso', ["clientes" => $clientes, "usuarioactual" => $usuarioactual]);
-
+            return 'excede';
         }
 
         DetalleLiquidacion::calculoN_modificado($cuenta->idcuenta);

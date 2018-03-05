@@ -73,6 +73,13 @@
     </div>
     @endif
 
+    @if(Session::has('error8'))
+    <div class="alert  fade in" style="background:  #ff8a80;">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h4>   <b>{{ Session::get('error8')}}</b>. Puede revisar la <a href="{{url('cuenta/carteraPagos/'.$cuenta)}}">cartera de pago</a></h4>
+    </div>
+    @endif
+
 
 
     <!-- Fin Notificación -->
