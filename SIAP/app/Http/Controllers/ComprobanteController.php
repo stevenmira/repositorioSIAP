@@ -532,8 +532,6 @@ class ComprobanteController extends Controller
 
     public function estadoPDF($id)
     {
-        $usuarioactual=\Auth::user();
-
         $cliente = DB::table('cuenta')
         ->select('cuenta.idcuenta','cuenta.interes','negocio.nombre as nnegocio','cliente.nombre', 'cliente.apellido','cliente.dui','cliente.nit','cliente.direccion','cuenta.estado','prestamo.estadodos','prestamo.cuotadiaria')
         ->join('negocio as negocio','cuenta.idnegocio','=','negocio.idnegocio')
@@ -584,7 +582,7 @@ class ComprobanteController extends Controller
             }else{
                 $ultima=$ultimafecha->fechadiaria->format('Y-m-d');
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $ultima = 0;
         }
 

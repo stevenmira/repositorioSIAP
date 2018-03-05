@@ -66,7 +66,7 @@
 					<td style="border: 1px solid #333" align="center"><span style="font-size: 10px;">Cuotas atrasadas <b>{{$estadoc->diasatrasados}}</b> de $ {{$cliente->cuotadiaria}}</span></td>
 					<td style="border: 1px solid #333" align="center"><span style="font-size: 10px;">{{$estadoc->diasatrasados}}</span></td>
 					<td style="border: 1px solid #333; border-right: 0px;"><span style="font-size: 13px;">&nbsp;&nbsp;$</span></td>
-					<td style="border: 1px solid #333; border-left: 0px;" align="right"><span style="font-size: 13px;">{{$estadoc->diasatrasados*$cliente->cuotadiaria}}&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+					<td style="border: 1px solid #333; border-left: 0px;" align="right"><span style="font-size: 13px;">{{$estadoc->totalcuotas}}&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
 					<td style="border: 1px solid #333; border-right: 0px;" align="center"><span style="font-size: 10px;"></span></td>
 					<td style="border: 1px solid #333; border-left: 0px;" align="center"><span style="font-size: 10px;"></span></td>
 					<td style="border: 1px solid #333; border-right: 0px;" align="center"><span style="font-size: 10px;"></span></td>
@@ -74,7 +74,7 @@
 					<td style="border: 1px solid #333; border-right: 0px;" align="center"><span style="font-size: 10px;"></span></td>
 					<td style="border: 1px solid #333; border-left: 0px;" align="center"><span style="font-size: 10px;"></span></td>
 					<td style="border: 1px solid #333; border-right: 0px;"><span style="font-size: 13px;">&nbsp;&nbsp;$</span></td>
-					<td style="border: 1px solid #333; border-left: 0px" align="right"><span style="font-size: 13px;">{{$estadoc->diasatrasados*$cliente->cuotadiaria}}&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+					<td style="border: 1px solid #333; border-left: 0px" align="right"><span style="font-size: 13px;">{{$estadoc->totalcuotas}}&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
 				</tr>
 				<tr>
 					<td style="border: 1px solid #333; height: 30px;" align="center"><span style="font-size: 10px;">2</span></td>
@@ -83,13 +83,13 @@
 					<td style="border: 1px solid #333; border-right: 0px;" align="center"><span style="font-size: 10px;"></span></td>
 					<td style="border: 1px solid #333; border-left: 0px;" align="center"><span style="font-size: 10px;"></span></td>
 					<td style="border: 1px solid #333; border-right: 0px"; valign="bottom"><span style="font-size: 13px;">&nbsp;&nbsp;$</span></td>
-					<td style="border: 1px solid #333; border-left: 0px;" align="right" valign="bottom"><span style="font-size: 13px;">{{$salmon}}&nbsp;&nbsp;</span></td>
+					<td style="border: 1px solid #333; border-left: 0px;" align="right" valign="bottom"><span style="font-size: 13px;">{{$estadoc->montoactual}}&nbsp;&nbsp;</span></td>
 					<td style="border: 1px solid #333; border-right: 0px;"><span style="font-size: 10px;"></span></td>
 					<td style="border: 1px solid #333; border-left: 0px;" align="center"><span style="font-size: 10px;"></span></td>
 					<td style="border: 1px solid #333; border-right: 0px;"><span style="font-size: 10px;"></span></td>
 					<td style="border: 1px solid #333; border-left: 0px;"><span style="font-size: 10px;"></span></td>
 					<td style="border: 1px solid #333; border-right: 0px;"><span style="font-size: 13px;">&nbsp;&nbsp;$</span></td>
-					<td style="border: 1px solid #333; border-left: 0px;"><span style="font-size: 13px;">{{$salmon}}&nbsp;&nbsp;</span></td>
+					<td style="border: 1px solid #333; border-left: 0px;"><span style="font-size: 13px;">{{$estadoc->montoactual}}&nbsp;&nbsp;</span></td>
 				</tr>
 				<tr>
 					<td style="border: 1px solid #333; height: 30px" align="center"><span style="font-size: 10px;">3</span></td>
@@ -125,15 +125,15 @@
 					<th style="border: 1px solid #333; height: 30px" align="center" colspan="2"><span style="font-size: 9px;">TOTAL</span></th>
 					<th style="border: 1px solid #333" align="center"><span style="font-size: 10px;"></span></th>
 					<th style="border: 1px solid #333; border-right: 0px;"><span style="font-size: 13px;">&nbsp;&nbsp;$</span></th>
-					<th style="border: 1px solid #333; border-left: 0px;" align="right"><span style="font-size: 13px;">{{$estadoc->diasatrasados*$cliente->cuotadiaria}}&nbsp;&nbsp;</span></th>
+					<th style="border: 1px solid #333; border-left: 0px;" align="right"><span style="font-size: 13px;">{{$estadoc->totalcuotas}}&nbsp;&nbsp;</span></th>
 					<th style="border: 1px solid #333; border-right: 0px;"><span style="font-size: 13px;">$</span></th>
-					<th style="border: 1px solid #333; border-left: 0px;" align="right"><span style="font-size: 13px;">{{$salmon}}&nbsp;&nbsp;</span></th>
+					<th style="border: 1px solid #333; border-left: 0px;" align="right"><span style="font-size: 13px;">{{$estadoc->montoactual}}&nbsp;&nbsp;</span></th>
 					<th style="border: 1px solid #333; border-right: 0px;"><span style="font-size: 13px;">&nbsp;&nbsp;$</span></th>
 					<th style="border: 1px solid #333; border-left: 0px;" align="right"><span style="font-size: 13px;">{{$estadoc->gastosadmon}}&nbsp;&nbsp;</span></th>
 					<th style="border: 1px solid #333; border-right: 0px;"><span style="font-size: 13px;">&nbsp;&nbsp;$</span></th>
 					<th style="border: 1px solid #333; border-left: 0px;" align="right"><span style="font-size: 13px;">{{$estadoc->gastosnotariales}}&nbsp;&nbsp;</span></th>
 					<th style="border: 1px solid #333; border-right: 0px;"><span style="font-size: 13px;">&nbsp;&nbsp;$</span></th>
-					<th style="border: 1px solid #333; border-left: 0px;" align="right"><span style="font-size: 13px;">{{$estadoc->diasatrasados*$cliente->cuotadiaria+$salmon+$estadoc->gastosnotariales+$estadoc->gastosadmon}}</span></th>
+					<th style="border: 1px solid #333; border-left: 0px;" align="right"><span style="font-size: 13px;">{{$estadoc->total}}</span></th>
 				</tr>
 			</tbody>
 		</table>
