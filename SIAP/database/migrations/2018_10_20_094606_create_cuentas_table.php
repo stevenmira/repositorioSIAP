@@ -35,7 +35,7 @@ class CreateCuentasTable extends Migration
             $table->float('mora')->nullable();
             $table->integer('cuotaatrasada')->nullable();
             $table->integer('numeroprestamo')->nullable();
-            
+            $table->string('estadocuenta',10)->nullable();
             $table->string('estado',10);
             $table->timestamps();
         });

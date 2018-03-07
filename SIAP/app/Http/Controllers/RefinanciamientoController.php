@@ -133,6 +133,7 @@ class RefinanciamientoController extends Controller
         
         $cuenta = Cuenta::where('idnegocio', $idN)->first();
         $prestamo = Prestamo::where('idprestamo',$cuenta->idprestamo)->first();
+        $estadoanterior=$prestamo->estadodos;
         $cuotas = Self::cuotasAtrasadas($cuenta->idcuenta);
 
         $interesDiario = Self::getInteres($tipo,$montoTotal);
@@ -176,6 +177,7 @@ class RefinanciamientoController extends Controller
             $cuenta->update();
 
             $prestamo = Prestamo::where('idprestamo',$cuenta->idprestamo)->first();
+            
             $prestamo->estadodos = 'CERRADO';
             $prestamo->update();
 
@@ -192,7 +194,7 @@ class RefinanciamientoController extends Controller
                     $tipoCredito = 3;
                 }
 
-                $idPrestamo = Self::insertarCuentaPrestamo($montoTotal, $cuota, $tipoCredito, $id, $idN,$monto,$cuenta->idcuenta,$fecha);
+                $idPrestamo = Self::insertarCuentaPrestamo($montoTotal, $cuota, $tipoCredito, $id, $idN,$monto,$cuenta->idcuenta,$fecha,$estadoanterior);
 
                 Self::calculoDetalleLiquidacion($montoTotal, $tipoCredito, $cuota, $id, $idPrestamo, $idN,$fecha);
                 return 'Refinanciamiento de tipo NORMAl guardado con exito';
@@ -200,7 +202,7 @@ class RefinanciamientoController extends Controller
 
             case 'preferencial':
                 $tipoCredito = 4;
-                $idPrestamo = Self::insertarCuentaPrestamo($montoTotal, $cuota, $tipoCredito, $id, $idN,$monto,$cuenta->idcuenta,$fecha);
+                $idPrestamo = Self::insertarCuentaPrestamo($montoTotal, $cuota, $tipoCredito, $id, $idN,$monto,$cuenta->idcuenta,$fecha,$estadoanterior);
 
                 Self::calculoDetalleLiquidacion($montoTotal, $tipoCredito, $cuota, $id, $idPrestamo, $idN,$fecha);
                 return 'Refinanciamiento de tipo Preferencial guardado con exito';
@@ -209,7 +211,7 @@ class RefinanciamientoController extends Controller
 
             case 'oro':
                 $tipoCredito = 5;
-                $idPrestamo = Self::insertarCuentaPrestamo($montoTotal, $cuota, $tipoCredito, $id, $idN,$monto,$cuenta->idcuenta,$fecha);
+                $idPrestamo = Self::insertarCuentaPrestamo($montoTotal, $cuota, $tipoCredito, $id, $idN,$monto,$cuenta->idcuenta,$fecha,$estadoanterior);
 
                 Self::calculoDetalleLiquidacion($montoTotal, $tipoCredito, $cuota, $id, $idPrestamo, $idN,$fecha);
                 return 'Refinanciamiento de tipo ORO guardado con exito';
@@ -270,7 +272,7 @@ class RefinanciamientoController extends Controller
     parámetros de entrada: monto, cuota, tipo del credito y ID del cliente.
     parámetros de salida: el ID del prestamo recien creado.
      */
-    public function insertarCuentaPrestamo($montoCapital, $cuota, $tipoCredito, $id, $idN,$monto,$idcuenta,$date)
+    public function insertarCuentaPrestamo($montoCapital, $cuota, $tipoCredito, $id, $idN,$monto,$idcuenta,$date,$estadoanterior)
     {
         $nuevoTipoCredito = TipoCredito::where('idtipocredito', $tipoCredito)->first();
         $number = Self::numeroPrestamo($id);
@@ -296,6 +298,7 @@ class RefinanciamientoController extends Controller
         $cuenta->numeroprestamo = $number+1;
         $cuenta->idnegocio=$idN;
         $cuenta->estado = 'ACTIVO';
+        $cuenta->estadocuenta=$estadoanterior;
         $cuenta->save();
         return $prestamo->idprestamo;
     }

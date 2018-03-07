@@ -5,6 +5,8 @@ namespace siap;
 use Jenssegers\Date\Date;
 use Carbon\Carbon; 
 use Illuminate\Database\Eloquent\Model;
+use siap\Cuenta;
+use siap\Prestamo;
 
 class prestamo extends Model
 {
@@ -53,5 +55,12 @@ class prestamo extends Model
         }
 
         return 1;
+    }
+
+    public static function estadoAnterior($idcuenta)
+    {
+        $cuenta = Cuenta::where('idcuenta',$idcuenta)->first();
+        $prestamo = Prestamo::where('idprestamo',$cuenta->idprestamo)->first();
+        return $prestamo->estadodos;
     }
 }

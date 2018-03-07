@@ -13,7 +13,7 @@ class cuenta extends Model
 
     protected $fillable = [
         'idnegocio', 'idprestamo', 'idtipocredito', 'montocapital','interes','fechaultimapago','estado',
-        'capitalanterior','mora','cuotaatrasada','numeroprestamo',
+        'capitalanterior','mora','cuotaatrasada','numeroprestamo','estadocuenta',
     ];
 
     /**
