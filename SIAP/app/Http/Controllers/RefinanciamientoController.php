@@ -83,7 +83,7 @@ class RefinanciamientoController extends Controller
                 Session::flash('error8', "El monto a refinanciar excede el total capital del credito anterior");
                 return view('tipoCredito.fracaso', ["clientes" => $clientes, "usuarioactual" => $usuarioactual,"cuenta"=>$cuenta->idcuenta]);
             }
-
+            $ok = Prestamo::actualizarEstado();
             return view('tipoCredito.exito', ["clientes" => $clientes, "usuarioactual" => $usuarioactual,"cuenta"=> $count,"persona"=>$cliente,"prestamo"=>$prestamo,"negocio"=>$negocio]);
         } else {
             Session::flash('ban',1);

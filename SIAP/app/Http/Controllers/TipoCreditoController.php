@@ -65,6 +65,8 @@ class TipoCreditoController extends Controller
             $count = Cuenta::where('idnegocio',$request->get('idnegocio'))->where('estado','=','ACTIVO')->first();
             $prestamo = Prestamo::where('idprestamo',$count->idprestamo)->first();
             $negocio = Negocio::where('idnegocio',$request->get('idnegocio'))->first();
+            $ok=Prestamo::actualizarEstado();
+            
             return view('tipoCredito.exito', ["clientes" => $clientes, "usuarioactual" => $usuarioactual,"cuenta"=> $count,"persona"=>$cliente,"prestamo"=>$prestamo,"negocio"=>$negocio]);
         } else {
             Session::flash('error1', "Hay un problema con el cliente, al parecer no se encuentra en nuesta base de datos");
