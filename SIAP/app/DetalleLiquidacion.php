@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 
 use Carbon\Carbon; //Para la zona fecha horaria
 
+use siap\Cuenta;
+use siap\Prestamo;
+
 use DB;
 
 class DetalleLiquidacion extends Model
@@ -197,5 +200,54 @@ class DetalleLiquidacion extends Model
 
     }
 
+    public static function saldoCapital($idN)
+    {
+
+       /*  $detallesLiquidaciones = DetalleLiquidacion::where('idcuenta',$idcuenta)->get(); */
+        $saldo = 0;
+        $cuotaCapital=0;
+     /*    foreach ($detallesLiquidaciones as $detalle) {
+            if (is_null($detalle->fechaefectiva) && !is_null($detalle->monto)) {
+                $saldo = $detalle->monto;
+            }
+        } */
+        $cuenta = Cuenta::where('idnegocio', $idN)->where('estado', '=', 'ACTIVO')->firstorFail();
+
+        $liquidacion=DB::table('detalle_liquidacion')->where([
+            ['idcuenta','=',$cuenta->idcuenta],
+            ['monto','!=',null],])
+            ->orderBy('monto','asc')->first();
+
+       
+        $prestamo = Prestamo::where('idprestamo',$cuenta->idprestamo)->first();
+        $hoy = Carbon::now();
+       // $hoy = $hoy->format('Y-m-d');
+        $pivote = Carbon::parse($liquidacion->fechadiaria);
+        //$pivote=$p->format('Y-m-d');
+        $valor=$liquidacion->monto;
+
+        $interesDiario = $liquidacion->monto * $cuenta->interes;
+        $cuotaCapital = $liquidacion->monto;
+        
+
+
+        while ($liquidacion->monto > $prestamo->cuotadiaria) {
+
+            $cuotaCapital = $prestamo->cuotadiaria - $interesDiario;
+            $liquidacion->monto = ($liquidacion->monto - $cuotaCapital);
+            $interesDiario = $liquidacion->monto * $cuenta->interes;
+            $liquidacion->monto=round($liquidacion->monto,2);
+            
+            if($hoy>$pivote)
+            {
+                $valor=$liquidacion->monto;
+            }
+
+            $pivote->addDay();
+        }
+
+        return $valor;
+
+    }
 
 }

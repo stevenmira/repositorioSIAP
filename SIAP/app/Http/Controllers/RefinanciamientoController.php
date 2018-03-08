@@ -124,14 +124,15 @@ class RefinanciamientoController extends Controller
     {
         $usuarioactual = \Auth::user();
         $clientes = DB::table('cliente')->where('estado','=','ACTIVO')->orderby('cliente.apellido', 'asc')->get();
-        $saldoCapitalCreditoAnterior = Self::calculoSaldoCapital($idN);
+        //$saldoCapitalCreditoAnterior = Self::calculoSaldoCapital($idN);
+        $saldoCapitalCreditoAnterior = DetalleLiquidacion::saldoCapital($idN);
         $montoCapitalInicial = ((intdiv($monto, 100)) * 4.50) + $monto;
         // $montoTotal = $saldoCapitalCreditoAnterior + $montoCapitalInicial;
         $montoTotal=$montoCapitalInicial;
 
         
         
-        $cuenta = Cuenta::where('idnegocio', $idN)->first();
+        $cuenta = Cuenta::where('idnegocio', $idN)->where('estado','=','ACTIVO')->first();
         $prestamo = Prestamo::where('idprestamo',$cuenta->idprestamo)->first();
         $estadoanterior=$prestamo->estadodos;
         $cuotas = Self::cuotasAtrasadas($cuenta->idcuenta);
@@ -149,7 +150,7 @@ class RefinanciamientoController extends Controller
 
         
 
-        if ($prestamo->estadodos!='VENCIDO') {
+        if ($prestamo->estadodos=='ACTIVO') {
             $cuenta->capitalanterior = $saldoCapitalCreditoAnterior;
             $cuenta->mora = 0;
             $cuenta->cuotaatrasada = $cuotas;
@@ -162,7 +163,10 @@ class RefinanciamientoController extends Controller
             $prestamo->update();
 
            
-        } else {
+        } 
+        
+        if($prestamo->estadodos=='VENCIDO')
+        {
             //$prestamo = Prestamo::where('idprestamo', $cuenta->idprestamo)->first();
             $fechaActual = Carbon::now();
             $fechaFinalizacionContrato = Carbon::parse($prestamo->fechaultimapago);
@@ -230,7 +234,7 @@ class RefinanciamientoController extends Controller
     public function cuotasAtrasadas($cuenta)
     {
         //$cuenta = Cuenta::where('idnegocio', $idN)->first();
-        $cuotas = DetalleLiquidacion::where('idcuenta', $cuenta)->where('estado', '=', 'ATRASO')->count();
+        $cuotas = DetalleLiquidacion::where('idcuenta', $cuenta)->where('estado', '=', 'ATRASO')->where('estado','=','PENDIENTE')->count();
 
         if (is_null($cuotas)) {
             return -1;
