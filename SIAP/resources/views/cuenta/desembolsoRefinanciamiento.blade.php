@@ -61,14 +61,27 @@
       </tr>
       <tr>
         <td>( - Saldo capital del crédito anterior  )</td>
-        <td><u>$ {{ $cuentaAnterior->capitalanterior }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></td>
+        <td><u>
+        @if($cuenta->estadocuenta != 'VENCIDO')
+        $ {{ $cuentaAnterior->capitalanterior }}
+        @endif
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></td>
+        
       </tr>
       <tr>
         <td>EFECTIVO A RECIBIR</td>
-        <?php 
-        $total = $prestamo->monto - $costo - $subtotal - $cuentaAnterior->mora - $cuentaAnterior->capitalanterior;
-        $totalB = $prestamo->monto - $costo - $subtotal - $cuentaAnterior->capitalanterior; 
+
+        <?php
+
+          if ($cuenta->estadocuenta != 'VENCIDO') {
+                 $total = $prestamo->monto - $costo - $subtotal - $cuentaAnterior->mora - $cuentaAnterior->capitalanterior;
+                 $totalB = $prestamo->monto - $costo - $subtotal - $cuentaAnterior->capitalanterior;
+            }else{
+                 $total = $prestamo->monto - $costo - $subtotal - $cuentaAnterior->mora;
+                 $totalB = $prestamo->monto - $costo - $subtotal;
+            } 
         ?>
+
         <td><b id="totalDesembolso">$ {{$total}}</b></td>
       </tr>
     </table>
@@ -132,6 +145,7 @@
 <input  id="cuotadiaria" value="{{ $prestamoAnterior->cuotadiaria }}" type="hidden"></input>
 <input  id="total" value="{{ $total }}" type="hidden"></input>
 <input  id="totalB" value="{{ $totalB }}" type="hidden"></input>
+<input  id="estadocuenta" value="{{ $cuenta->estadocuenta }}" type="hidden"></input>
 
 @push('scripts')
 

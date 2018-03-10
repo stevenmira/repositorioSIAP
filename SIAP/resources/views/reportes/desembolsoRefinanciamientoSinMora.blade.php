@@ -75,11 +75,26 @@
 			
 			<tr>
 				<td>( - Saldo capital de credito anterior)</td>
-				<td>$ <u>&nbsp;&nbsp;{{ $cuentaAnterior->capitalanterior }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></td>
+				<td>$ 
+					@if($cuenta->estadocuenta != 'VENCIDO')
+						<u>
+							&nbsp;&nbsp;{{ $cuentaAnterior->capitalanterior }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						</u>
+					@else
+					 ____________
+					@endif
+				</td>
 			</tr>
 			<tr>
 				<td>EFECTIVO A RECIBIR</td>
-				<?php $total = $prestamo->monto - $costo - $subtotal - $cuentaAnterior->capitalanterior; ?>
+				<?php
+					 if($cuenta->estadocuenta != 'VENCIDO'){
+					 	$total = $prestamo->monto - $costo - $subtotal - $cuentaAnterior->capitalanterior;
+					 }
+					 else{
+					 	$total = $prestamo->monto - $costo - $subtotal;
+					 } 
+				 ?>
 				<td>$ &nbsp;&nbsp;{{$total}}</td>
 			</tr>
 		</table>
