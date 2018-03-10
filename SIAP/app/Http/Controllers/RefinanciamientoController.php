@@ -234,7 +234,7 @@ class RefinanciamientoController extends Controller
     public function cuotasAtrasadas($cuenta)
     {
         //$cuenta = Cuenta::where('idnegocio', $idN)->first();
-        $cuotas = DetalleLiquidacion::where('idcuenta', $cuenta)->where('estado', '=', 'ATRASO')->where('estado','=','PENDIENTE')->count();
+        $cuotas = DetalleLiquidacion::where('idcuenta', $cuenta)->where('estado', '=', 'ATRASO')->count();
 
         if (is_null($cuotas)) {
             return -1;
