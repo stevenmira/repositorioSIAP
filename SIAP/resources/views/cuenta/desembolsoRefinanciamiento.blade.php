@@ -2,7 +2,7 @@
 @section('contenido')
 <section class="content-header">
   <h1 style="color: #333333; font-family: 'Times New Roman', Times, serif;">
-    DESEMBOLSO CON REFINANCIAMIENTO
+    DESEMBOLSO CON REFINANCIAMIENTO 
   </h1>
   <ol class="breadcrumb">
     <li><a href="{{URL::action('ClienteController@index')}}"><i class="fa fa-dashboard"></i> Inicio</a></li>
@@ -34,7 +34,7 @@
       </thead>
       <tr>
         <td style="border: 1px solid #333" align="right">{{$cuenta->numeroprestamo}}</td>
-        <td style="border: 1px solid #333; text-align: right;"><span class="pull-left" >$ </span> {{ $prestamo->monto }}</td>
+        <td style="border: 1px solid #333; text-align: right;"><span class="pull-left" >$ </span> {{ number_format($prestamo->monto, 2) }}</td>
       </tr>
     </table>
   </div>
@@ -44,26 +44,26 @@
     <table align="center" style="width: 80%; border-collapse: collapse;">
       <tr>
         <th>Desembolso</th>
-        <th>$ {{$prestamo->monto}}</th>
+        <th>$ {{ number_format($prestamo->monto, 2)}}</th>
       </tr>
       <tr>
         <td>( - Desc. De $4.50 de cada $100.00 por desembolso)</td>
-        <td>$ {{ $costo }}</td>
+        <td>$ {{ number_format($costo, 2) }}</td>
       </tr>
       <tr>
-        <td>( - CUOTAS ATRASADAS <b>{{$cuentaAnterior->cuotaatrasada}} * {{$prestamoAnterior->cuotadiaria}})</b></td>
-        <?php $subtotal =  $cuentaAnterior->cuotaatrasada * $prestamoAnterior->cuotadiaria; ?>
-        <td>$ {{ $subtotal }}</td>
+        <td>( - CUOTAS ATRASADAS <b>( {{$cuentaAnterior->cuotaatrasada}} ) </b>)</td>
+        <?php $subtotal =  $total; ?>
+        <td>$ {{ number_format($subtotal, 2) }}</td>
       </tr>
       <tr>
         <td>( - MORA POR INCUMPLIMIENTO)</td>
-        <td><b id="totalMora"> $ {{ $cuentaAnterior->mora }}</b></td>
+        <td><b id="totalMora"> $ {{ round($cuentaAnterior->mora, 2) }}</b></td>
       </tr>
       <tr>
         <td>( - Saldo capital del crédito anterior  )</td>
         <td><u>
         @if($cuenta->estadocuenta != 'VENCIDO')
-        $ {{ $cuentaAnterior->capitalanterior }}
+        $ {{ number_format($cuentaAnterior->capitalanterior, 2) }}
         @endif
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></td>
         
@@ -74,15 +74,21 @@
         <?php
 
           if ($cuenta->estadocuenta != 'VENCIDO') {
-                 $total = $prestamo->monto - $costo - $subtotal - $cuentaAnterior->mora - $cuentaAnterior->capitalanterior;
+                 $total = $prestamo->monto - $costo - $subtotal - round($cuentaAnterior->mora, 2) - $cuentaAnterior->capitalanterior;
+                 $total = round($total, 2);
+
                  $totalB = $prestamo->monto - $costo - $subtotal - $cuentaAnterior->capitalanterior;
+                 $totalB = round($totalB, 2);
             }else{
-                 $total = $prestamo->monto - $costo - $subtotal - $cuentaAnterior->mora;
-                 $totalB = $prestamo->monto - $costo - $subtotal;
+                 $total = $prestamo->monto - $costo - $subtotal - round($cuentaAnterior->mora, 2);
+                 $total = round($total, 2);
+
+                 $totalB =  $prestamo->monto - $costo - $subtotal;
+                 $totalB = round($totalB, 2);
             } 
         ?>
 
-        <td><b id="totalDesembolso">$ {{$total}}</b></td>
+        <td><b id="totalDesembolso">$ {{round($total, 2)}}</b></td>
       </tr>
     </table>
   </div>
@@ -140,7 +146,7 @@
 <input  id="monto" value="{{ $prestamo->monto }}" type="hidden"></input>
 <input  id="costo" value="{{ $costo }}" type="hidden"></input>
 <input  id="capitalanterior" value="{{ $cuentaAnterior->capitalanterior }}" type="hidden"></input>
-<input  id="mora" value="{{ $cuentaAnterior->mora }}" type="hidden"></input>
+<input  id="mora" value="{{ round($cuentaAnterior->mora, 2) }}" type="hidden"></input>
 <input  id="cuotaatrasada" value="{{ $cuentaAnterior->cuotaatrasada }}" type="hidden"></input>
 <input  id="cuotadiaria" value="{{ $prestamoAnterior->cuotadiaria }}" type="hidden"></input>
 <input  id="total" value="{{ $total }}" type="hidden"></input>

@@ -103,7 +103,9 @@ class CuentaController extends Controller
             $costo = intdiv($prestamo->montooriginal, 50) * 2.25;
             $montoreal = $prestamo->montooriginal;
 
-            return view('cuenta.desembolsoRefinanciamiento',["cuenta"=>$cuenta, "cuentaAnterior"=>$cuentaAnterior, "prestamoAnterior"=>$prestamoAnterior, "cliente"=>$cliente, "prestamo"=>$prestamo, "montoreal"=>$montoreal, "costo"=>$costo, "usuarioactual"=>$usuarioactual]);
+            $total = Prestamo::cuenta_atraso($idcuenta);
+
+            return view('cuenta.desembolsoRefinanciamiento',["cuenta"=>$cuenta, "cuentaAnterior"=>$cuentaAnterior, "prestamoAnterior"=>$prestamoAnterior, "cliente"=>$cliente, "prestamo"=>$prestamo, "montoreal"=>$montoreal, "costo"=>$costo, "total"=>$total, "usuarioactual"=>$usuarioactual]);
         }
         
     }
@@ -140,9 +142,11 @@ class CuentaController extends Controller
 
             $vistaurl = 'reportes/desembolsoRefinanciamiento';
 
-            $name='algo';
+            $name='Desembolso.pdf';
 
-            return $this -> desemMoraPDf($vistaurl,$cuenta, $cuentaAnterior, $prestamoAnterior, $cliente, $prestamo, $montoreal, $costo,$name);
+            $total_atraso = Prestamo::cuenta_atraso($idcuenta);
+
+            return $this -> desemMoraPDf($vistaurl,$cuenta, $cuentaAnterior, $prestamoAnterior, $cliente, $prestamo, $montoreal, $costo,$name, $total_atraso);
         }
            
     }
@@ -177,9 +181,11 @@ class CuentaController extends Controller
 
             $vistaurl = 'reportes/desembolsoRefinanciamientoSinMora';
 
-            $name='algo';
+            $name='Desembolso.pdf';
 
-            return $this -> desemMoraPDf2($vistaurl,$cuenta, $cuentaAnterior, $prestamoAnterior, $cliente, $prestamo, $montoreal, $costo,$name);
+            $total_atraso = Prestamo::cuenta_atraso($idcuenta);
+
+            return $this -> desemMoraPDf2($vistaurl,$cuenta, $cuentaAnterior, $prestamoAnterior, $cliente, $prestamo, $montoreal, $costo,$name, $total_atraso);
         }
            
     }
@@ -192,16 +198,16 @@ class CuentaController extends Controller
         return $pdf->stream($name);
     }
 
-    public function desemMoraPDf($vistaurl,$cuenta, $cuentaAnterior, $prestamoAnterior, $cliente, $prestamo, $montoreal, $costo,$name){
-        $view=\View::make($vistaurl,compact('cuenta','cuenta', 'cuentaAnterior', 'prestamoAnterior', 'cliente', 'prestamo', 'montoreal', 'costo'))->render();
+    public function desemMoraPDf($vistaurl,$cuenta, $cuentaAnterior, $prestamoAnterior, $cliente, $prestamo, $montoreal, $costo,$name, $total_atraso){
+        $view=\View::make($vistaurl,compact('cuenta','cuenta', 'cuentaAnterior', 'prestamoAnterior', 'cliente', 'prestamo', 'montoreal', 'costo', 'total_atraso'))->render();
         $pdf =\App::make('dompdf.wrapper');
 
         $pdf->loadHTML($view);
         return $pdf->stream($name);
     }
 
-    public function desemMoraPDf2($vistaurl,$cuenta, $cuentaAnterior, $prestamoAnterior, $cliente, $prestamo, $montoreal, $costo,$name){
-        $view=\View::make($vistaurl,compact('cuenta','cuenta', 'cuentaAnterior', 'prestamoAnterior', 'cliente', 'prestamo', 'montoreal', 'costo'))->render();
+    public function desemMoraPDf2($vistaurl,$cuenta, $cuentaAnterior, $prestamoAnterior, $cliente, $prestamo, $montoreal, $costo,$name, $total_atraso){
+        $view=\View::make($vistaurl,compact('cuenta','cuenta', 'cuentaAnterior', 'prestamoAnterior', 'cliente', 'prestamo', 'montoreal', 'costo', 'total_atraso'))->render();
         $pdf =\App::make('dompdf.wrapper');
 
         $pdf->loadHTML($view);

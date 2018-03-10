@@ -566,7 +566,7 @@ class ComprobanteController extends Controller
                 $salmon=0;
             }else{
                 $salmon=$saldoact->monto;}
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $salmon = 0;
         }
 

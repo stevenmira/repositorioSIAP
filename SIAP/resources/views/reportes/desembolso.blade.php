@@ -50,7 +50,7 @@
 			<tr>
 				<td style="border: 1px solid #333" align="right">{{$cuenta->numeroprestamo}}</td>
 				<td style="border: 1px solid #333; border-right: 0px; width: 300px">$ </td>
-				<td style="border: 1px solid #333; border-left: 0px; width: 40px" align="right">{{ $prestamo->monto }}</td>
+				<td style="border: 1px solid #333; border-left: 0px; width: 40px" align="right">{{ number_format($prestamo->monto, 2) }}</td>
 			</tr>
 		</table>
 	</div>
@@ -61,15 +61,15 @@
 		<table align="center" style="width: 80%; border-collapse: collapse;">
 			<tr>
 				<th>Desembolso</th>
-				<th>$ &nbsp;&nbsp;{{$prestamo->monto}}</th>
+				<th>$ &nbsp;&nbsp;{{ number_format($prestamo->monto, 2)}}</th>
 			</tr>
 			<tr>
 				<td>( - Desc. De $4.50 de cada $100.00 por desembolso)</td>
-				<td>$ &nbsp;&nbsp;<u>{{ $costo }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></td>
+				<td>$&nbsp;&nbsp;<u> &nbsp;&nbsp;&nbsp;{{ number_format($costo, 2) }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></td>
 			</tr>
 			<tr>
 				<td>EFECTIVO A RECIBIR</td>
-				<td>$ &nbsp;&nbsp;{{$montoreal}}</td>
+				<td>$ &nbsp;&nbsp;{{number_format($montoreal, 2)}}</td>
 			</tr>
 		</table>
 	</div>

@@ -160,42 +160,47 @@ class DetalleLiquidacion extends Model
         $monto_capital = $prestamo->monto;
         $n=0;
 
-        foreach ($liquidaciones as $liq) 
-        {
-            if ($liq->abonocapital == "NO") {
-                $monto_capital = $liq->monto - $liq->cuotacapital;
+        if ($prestamo->estadodos == 'ACTIVO') {
             
-            }
-            elseif($liq->abonocapital == "SI")
-            {
-                $monto_capital = $liq->monto - $liq->totaldiario;
-            }
-
-            elseif ($liq->abonocapital == null) 
-            {
-                if($monto_capital > 0)
+        
+                foreach ($liquidaciones as $liq) 
                 {
-                        if ($liq->fechadiaria >= $fecha_actual) {
-                            $liq->estado = 'PENDIENTE';
-                            $liq->update();
-                        }elseif ($liq->fechadiaria < $fecha_actual) {
-                            $liq->estado = 'ATRASO';
+                    if ($liq->abonocapital == "NO") {
+                        $monto_capital = $liq->monto - $liq->cuotacapital;
+                    
+                    }
+                    elseif($liq->abonocapital == "SI")
+                    {
+                        $monto_capital = $liq->monto - $liq->totaldiario;
+                    }
+
+                    elseif ($liq->abonocapital == null) 
+                    {
+                        if($monto_capital > 0)
+                        {
+                                if ($liq->fechadiaria >= $fecha_actual) {
+                                    $liq->estado = 'PENDIENTE';
+                                    $liq->update();
+                                }elseif ($liq->fechadiaria < $fecha_actual) {
+                                    $liq->estado = 'ATRASO';
+                                    $liq->update();
+                                }
+
+                            $intereses = round($monto_capital * $tipo_credito->interes, 2);
+                            $cuotacapital = round($prestamo->cuotadiaria - $intereses);
+                            $monto_capital = $monto_capital - $cuotacapital;
+                            $n = $n +1;
+
+                        }else{
+                            $liq->estado = 'NO VALIDO';
                             $liq->update();
                         }
+                    }
 
-                    $intereses = round($monto_capital * $tipo_credito->interes, 2);
-                    $cuotacapital = round($prestamo->cuotadiaria - $intereses);
-                    $monto_capital = $monto_capital - $cuotacapital;
-                    $n = $n +1;
 
-                }else{
-                    $liq->estado = 'NO VALIDO';
-                    $liq->update();
                 }
-            }
-
-
         }
+        
         return $n;
 
     }

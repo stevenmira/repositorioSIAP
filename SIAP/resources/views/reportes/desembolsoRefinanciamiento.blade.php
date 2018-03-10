@@ -50,7 +50,7 @@
 			<tr>
 				<td style="border: 1px solid #333" align="right">{{$cuenta->numeroprestamo}}</td>
 				<td style="border: 1px solid #333; border-right: 0px; width: 300px">$ </td>
-				<td style="border: 1px solid #333; border-left: 0px; width: 40px" align="right">{{ $prestamo->monto }}</td>
+				<td style="border: 1px solid #333; border-left: 0px; width: 40px" align="right">{{ number_format($prestamo->monto, 2) }}</td>
 			</tr>
 		</table>
 	</div>
@@ -61,27 +61,27 @@
 		<table align="center" style="width: 80%; border-collapse: collapse;">
 			<tr>
 				<th>Desembolso</th>
-				<th>$ &nbsp;&nbsp;{{$prestamo->monto}}</th>
+				<th>$ &nbsp;&nbsp;{{number_format($prestamo->monto, 2)}}</th>
 			</tr>
 			<tr>
 				<td>( - Desc. De $4.50 de cada $100.00 por desembolso)</td>
-				<td>$ &nbsp;&nbsp;{{ $costo }}</td>
+				<td>$ &nbsp;&nbsp;{{ number_format($costo, 2) }}</td>
 			</tr>
 			<tr>
-				<td>( - CUOTAS ATRASADAS <b>{{$cuentaAnterior->cuotaatrasada}} * {{$prestamoAnterior->cuotadiaria}})</td>
-				<?php $subtotal =  $cuentaAnterior->cuotaatrasada * $prestamoAnterior->cuotadiaria; ?>
-				<td>$ &nbsp;&nbsp;{{ $subtotal }}</td>
+				<td>( - CUOTAS ATRASADAS <b> )</td>
+				<?php $subtotal = $total_atraso; ?>
+				<td>$ &nbsp;&nbsp;{{ number_format($subtotal, 2) }}</td>
 			</tr>
 			<tr>
 				<td>( - MORA POR INCUMPLIMIENTO)</td>
-				<td>$ &nbsp;&nbsp;{{ $cuentaAnterior->mora }}</td>
+				<td>$ &nbsp;&nbsp;{{ number_format(round($cuentaAnterior->mora,2), 2) }}</td>
 			</tr>
 			<tr>
 				<td>( - Saldo capital de credito anterior)</td>
 				<td>$ 
 					@if($cuenta->estadocuenta != 'VENCIDO')
 						<u>
-							&nbsp;&nbsp;{{ $cuentaAnterior->capitalanterior }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							&nbsp;&nbsp;{{ number_format($cuentaAnterior->capitalanterior, 2) }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						</u>
 					@else
 					 ____________
@@ -92,13 +92,13 @@
 				<td>EFECTIVO A RECIBIR</td>
 				<?php 
 					if($cuenta->estadocuenta != 'VENCIDO'){
-						$total = $prestamo->monto - $costo - $subtotal - $cuentaAnterior->mora - $cuentaAnterior->capitalanterior;
+						$total = $prestamo->monto - $costo - $subtotal - round($cuentaAnterior->mora,2) - $cuentaAnterior->capitalanterior;
 					}
 					else{
-						$total = $prestamo->monto - $costo - $subtotal - $cuentaAnterior->mora;
+						$total = $prestamo->monto - $costo - $subtotal - round($cuentaAnterior->mora,2);
 					} 
 				?>
-				<td>$ &nbsp;&nbsp;{{$total}}</td>
+				<td>$ &nbsp;&nbsp;{{number_format($total, 2)}}</td>
 			</tr>
 		</table>
 	</div>
