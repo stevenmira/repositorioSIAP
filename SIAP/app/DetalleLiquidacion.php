@@ -187,7 +187,7 @@ class DetalleLiquidacion extends Model
                                 }
 
                             $intereses = round($monto_capital * $tipo_credito->interes, 2);
-                            $cuotacapital = round($prestamo->cuotadiaria - $intereses);
+                            $cuotacapital = round($prestamo->cuotadiaria - $intereses, 2);  //podria haberse dejado a cero
                             $monto_capital = $monto_capital - $cuotacapital;
                             $n = $n +1;
 

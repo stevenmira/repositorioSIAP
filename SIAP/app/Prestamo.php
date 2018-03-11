@@ -96,11 +96,11 @@ class prestamo extends Model
             $estadoAnt = "";
 
             //Se verifica que la última cuota NO este atrasada Si lo esta devuelve aumento
-            foreach ($liquidacionesAnt as $ma) {
+            /*foreach ($liquidacionesAnt as $ma) {
                 if ($ma->estado == 'PENDIENTE' || $ma->estado == 'ATRASO') {
                     $bandera = $bandera + 1;
                 }
-            }
+            }*/
 
             //Se verifica cuál es la cantidad del último pago
             foreach ($liquidacionesAnt as $liq) {
