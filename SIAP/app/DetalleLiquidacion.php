@@ -160,7 +160,7 @@ class DetalleLiquidacion extends Model
         $monto_capital = $prestamo->monto;
         $n=0;
 
-        if ($prestamo->estadodos == 'ACTIVO') {
+        if ($prestamo->estadodos == 'ACTIVO' || $prestamo->estadodos == 'VENCIDO') {
             
         
                 foreach ($liquidaciones as $liq) 
