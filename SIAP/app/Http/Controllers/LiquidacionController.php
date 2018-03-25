@@ -9,6 +9,7 @@ use siap\Http\Requests\LiquidacionFormRequest;
 
 use siap\Cuenta;
 use siap\Cliente;
+use siap\Cartera;
 use siap\Negocio;
 use siap\Prestamo;
 use siap\TipoCredito;
@@ -38,6 +39,7 @@ class LiquidacionController extends Controller
         $cuenta = Cuenta::findOrFail($id);
         $negocio = Negocio::findOrFail($cuenta->idnegocio);
         $cliente = Cliente::findOrFail($negocio->idcliente);
+        $cartera = Cartera::findOrFail($cliente->idcartera);
         $prestamo = Prestamo::findOrFail($cuenta->idprestamo);
         $tipo_credito = TipoCredito::findOrFail($cuenta->idtipocredito);
 
@@ -96,7 +98,7 @@ class LiquidacionController extends Controller
         //Obtenemos la fecha de hoy en español usando carbon y array
         $fecha_server = Fecha::spanish();
 
-        return view('liquidacion.index',["cuenta"=>$cuenta,"n"=>$n, "cliente"=>$cliente, "prestamo"=>$prestamo, "tipo_credito"=>$tipo_credito, "negocio"=>$negocio, "liquidaciones"=>$liquidaciones, "sum_interes_diario"=>$sum_interes_diario, "sum_cuota_capital"=>$sum_cuota_capital, "sum_total_diario"=>$sum_total_diario, "atraso"=>$atraso, "abono"=>$abono, "pendiente"=>$pendiente, "novalido"=>$novalido,  "cancelado"=>$cancelado, "fecha_actual"=>$fecha_actual, "fecha_server"=>$fecha_server, "usuarioactual"=>$usuarioactual ]);
+        return view('liquidacion.index',["cuenta"=>$cuenta,"n"=>$n, "cliente"=>$cliente, "cartera"=>$cartera, "prestamo"=>$prestamo, "tipo_credito"=>$tipo_credito, "negocio"=>$negocio, "liquidaciones"=>$liquidaciones, "sum_interes_diario"=>$sum_interes_diario, "sum_cuota_capital"=>$sum_cuota_capital, "sum_total_diario"=>$sum_total_diario, "atraso"=>$atraso, "abono"=>$abono, "pendiente"=>$pendiente, "novalido"=>$novalido,  "cancelado"=>$cancelado, "fecha_actual"=>$fecha_actual, "fecha_server"=>$fecha_server, "usuarioactual"=>$usuarioactual ]);
     }
 
     //Recibe una liquidacion

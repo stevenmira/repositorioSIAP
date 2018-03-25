@@ -237,6 +237,7 @@ a.total:hover {text-decoration:none; color:#000; } /*Mause sobre el link*/
         <th style="border: 1px solid #333; width: 130px" align="center"><span>Interés diario</span></th>
         <th style="border: 1px solid #333; width: 130px" rowspan="2" align="center"><span>PAGOS DIARIOS</span></th>
         <th style="border: 1px solid #333; width: 130px" rowspan="2" align="center"><span>CUOTA DIARIA</span></th>
+        <th style="border: 1px solid #333; width: 130px" rowspan="2" align="center"><span>CARTERA</span></th>
       </tr>
       <tr class="info">
         <?php $interes = $tipo_credito->interes * 100; ?>
@@ -248,6 +249,7 @@ a.total:hover {text-decoration:none; color:#000; } /*Mause sobre el link*/
         <td style="border: 1px solid #333"></td>
         <td style="border: 1px solid #333"></td>
        <td style="border: 1px solid #333; text-align: right;"><span class="pull-left" >$ </span> {{$prestamo->cuotadiaria}}</td>
+       <td style="border: 1px solid #333; text-align:center;"> {{$cartera->nombre}}</td>
       </tr>
     </thead>
     <tbody>

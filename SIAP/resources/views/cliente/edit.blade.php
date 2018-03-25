@@ -142,12 +142,25 @@
             </div>
 
             <div class="form-group col-md-4">
+              <label for="nombre">Domicilio</label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                </div>
+                {!! Form::text('domicilio', $cliente->domicilio, ['class' => 'form-control' , 'required' => 'required', 'placeholder'=>'Introduzca el domicilio . . .', 'autofocus'=>'on', 'maxlength'=>'45']) !!}
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="form-group col-md-8">
               <label for="direccionCliente">Dirección del cliente</label>
               <div class="input-group">
                 <div class="input-group-addon">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </div>
-                {!! Form::textarea('direccionCliente', $cliente->direccion, ['class' => 'form-control' , 'required' => 'required', 'placeholder'=>'Introduzca la dirección del cliente . . .', 'autofocus'=>'on', 'rows'=>'3']) !!}
+                {!! Form::textarea('direccionCliente', $cliente->direccion, ['class' => 'form-control' , 'required' => 'required', 'placeholder'=>'Introduzca la dirección del cliente . . .', 'autofocus'=>'on', 'rows'=>'1']) !!}
               </div>
             </div>
           </div>

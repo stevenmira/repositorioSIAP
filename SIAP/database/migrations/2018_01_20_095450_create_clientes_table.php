@@ -30,6 +30,7 @@ class CreateClientesTable extends Migration
             $table->string('telefonocel',9);
             $table->string('telefonofijo',9);
             $table->string('profesion',50)->nullable();
+            $table->string('domicilio',50)->required();
 
             $table->string('lugarexpedicion',50)->required();
             $table->date('fechaexpedicion')->required();
