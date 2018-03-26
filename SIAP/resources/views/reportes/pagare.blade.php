@@ -24,7 +24,7 @@
 	<br>
 	<table>
 		<div align="justify" style="page-break-after: always;">
-			Yo, <span><b>{{strtoupper( $nombre -> nombre)}} {{strtoupper( $nombre -> apellido )}},</b></span> mayor edad, @if($nombre->profesion!=''&&$nombre->profesion!=' ') {{$nombre->profesion}}, @endif portador de Documento Único de Identidad número
+			Yo, <span><b>{{strtoupper( $nombre -> nombre)}} {{strtoupper( $nombre -> apellido )}},</b></span> mayor edad, @if($nombre->profesion!=''&&$nombre->profesion!=' ') {{$nombre->profesion}}, @endif del domicilio de {{$nombre->domicilio}}, portador de Documento Único de Identidad número
 			
 			@if(substr($dui, -10, 1)==0)
 				cero
@@ -139,8 +139,6 @@
 			,  por este PAGARE, me obligo a pagar incondicionalmente en la ciudad de Tepecoyo, departamento de La Libertad al señor <b>GREGORIO ROSALES PORTILLO,</b> de {{$edad}} años de edad, contador, del domicilio de Tepecoyo, departamento de La Libertad, portador de Documento Único de Identidad número cero dos millones dieciocho mil setecientos setenta y seis - siete y Número de Identificación Tributaria cero  quinientos veintiuno – cero  treinta mil novecientos sesenta y nueve - ciento uno - nueve, actuando en nombre y representación  Sociedad <b>ASESORES FINANCIEROS MICRO IMPULSADORES DE NEGOCIOS SOCIEDAD ANÓNIMA DE CAPITAL VARIABLE,</b> y que puede abreviarse <b>AFIMID, S.A. DE C.V.</b>  con número de identificación tributaria cero seiscientos catorce - trescientos un mil diecisiete - ciento tres - cero; en calidad de Administrador Único Propietario de la Sociedad, por la suma de: <span><b>{{strtolower($monto)}} @if($monto=='UN ') DÓLAR @else DÓLARES @endif @if($sepa!='00') con {{strtolower($sepa1)}} @endif
 			@if($sepa!='00')
 				centavos de DOLAR
-			@else
-				DOLARES
 			@endif
 			DE LOS ESTADOS UNIDOS DE AMERICA,</b></span> mas interés del
 			@if(strcmp("UN ",$porcenta1)==0)
