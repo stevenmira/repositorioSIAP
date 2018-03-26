@@ -135,7 +135,7 @@ class RefinanciamientoController extends Controller
         $cuenta = Cuenta::where('idnegocio', $idN)->where('estado','=','ACTIVO')->first();
         $prestamo = Prestamo::where('idprestamo',$cuenta->idprestamo)->first();
         $estadoanterior=$prestamo->estadodos;
-        $cuotas = Self::cuotasAtrasadas($cuenta->idcuenta);
+        $cuotas = (Self::cuotasAtrasadas($cuenta->idcuenta))+1;
 
         $interesDiario = Self::getInteres($tipo,$montoTotal);
 
@@ -319,29 +319,30 @@ class RefinanciamientoController extends Controller
         $clientes = DB::table('cliente')->where('estado','=','ACTIVO')->orderby('cliente.apellido', 'asc')->get();
         $usuarioactual = \Auth::user();
         $nuevoTipoCredito = TipoCredito::where('idtipocredito', $tipoCredito)->first();
-        //$cuenta = Cuenta::where('idcliente', $id)->where('estado', '=', 'ACTIVO')->first();
         $fechaDos= Carbon::parse($Date);
         $cuenta = Cuenta::where('idnegocio', $idN)->where('estado', '=', 'ACTIVO')->first();
-        $fecha = $fechaDos->addDay();
-        //$fechadiaria = $fecha;
-        $cliente = Cliente::where('idcliente', $id)->first();
-
+        
+ 
         $interesDiario = $montoCapital * $nuevoTipoCredito->interes;
-        // $totalDiario = $montoCapital + $interesDiario1;
-        //$cuotaCapital = $montoCapital;
-
+    
         $detalleLiquidacion = new DetalleLiquidacion;
-        $count = 1;
-
+        $count = 0;
         $detalleLiquidacion->idcuenta = $cuenta->idcuenta;
-        //$fechadiaria = $fechadiaria->addDay();
-        $detalleLiquidacion->fechadiaria = $fecha->format('Y-m-d');
-        //$detalleLiquidacion->monto = $montoCapital;
-        // $detalleLiquidacion->interes = $interesDiario;
+        $detalleLiquidacion->fechadiaria = $fechaDos->format('Y-m-d');
         $detalleLiquidacion->estado = "ACTIVO";
         $detalleLiquidacion->idusuario = $usuarioactual->idusuario;
         $detalleLiquidacion->contador = $count;
-        //$detalleLiquidacion->idcartera = $cliente->idcartera;
+        $detalleLiquidacion->save();
+        
+        $fecha = $fechaDos->addDay();
+
+        $detalleLiquidacion = new DetalleLiquidacion;
+        $count = 1;
+        $detalleLiquidacion->idcuenta = $cuenta->idcuenta;
+        $detalleLiquidacion->fechadiaria = $fecha->format('Y-m-d');
+        $detalleLiquidacion->estado = "ACTIVO";
+        $detalleLiquidacion->idusuario = $usuarioactual->idusuario;
+        $detalleLiquidacion->contador = $count;
         $detalleLiquidacion->save();
 
         while ($montoCapital > $cuota) {

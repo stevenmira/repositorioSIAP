@@ -205,17 +205,21 @@ class DetalleLiquidacion extends Model
 
     }
 
+
+    /*
+    Nombre: saldoCapital
+    Objetivo: calcula el saldo capital de credito de un negocio
+    Autor: Lexan
+    parámetros de entrada: ID de un negocio
+    parámetros de salida: saldo de credito anterior.
+     */
     public static function saldoCapital($idN)
     {
 
-       /*  $detallesLiquidaciones = DetalleLiquidacion::where('idcuenta',$idcuenta)->get(); */
+       
         $saldo = 0;
         $cuotaCapital=0;
-     /*    foreach ($detallesLiquidaciones as $detalle) {
-            if (is_null($detalle->fechaefectiva) && !is_null($detalle->monto)) {
-                $saldo = $detalle->monto;
-            }
-        } */
+   
         $cuenta = Cuenta::where('idnegocio', $idN)->where('estado', '=', 'ACTIVO')->firstorFail();
 
         $liquidacion=DB::table('detalle_liquidacion')->where([
@@ -226,16 +230,15 @@ class DetalleLiquidacion extends Model
        
         $prestamo = Prestamo::where('idprestamo',$cuenta->idprestamo)->first();
         $hoy = Carbon::now();
-       // $hoy = $hoy->format('Y-m-d');
+        $hoy->addDay();
+      
         $pivote = Carbon::parse($liquidacion->fechadiaria);
-        //$pivote=$p->format('Y-m-d');
+        
         $valor=$liquidacion->monto;
 
         $interesDiario = $liquidacion->monto * $cuenta->interes;
         $cuotaCapital = $liquidacion->monto;
         
-
-
         while ($liquidacion->monto > $prestamo->cuotadiaria) {
 
             $cuotaCapital = $prestamo->cuotadiaria - $interesDiario;
