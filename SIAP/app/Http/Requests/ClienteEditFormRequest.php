@@ -34,6 +34,7 @@ class ClienteEditFormRequest extends Request
             'telefonocel'=>'min:9|max:9',
             'telefonofijo'=>'min:9|max:9',
             'profesion'=>'max:50',
+            'domicilio'=>'required|max:45',
 
             'lugarexpedicion'=>'required|max:50',
             'fechaexpedicion'=>'required'
@@ -74,7 +75,10 @@ class ClienteEditFormRequest extends Request
             'telefonofijo.min' =>'El campo -- Teléfono fijo -- debe tener exactamente 8 dígitos, no menos.',
             'telefonofijo.max' =>'El campo -- Teléfono fijo -- debe tener exactamente 8 dígitos, no más.',
 
-            'profesion.max' =>'El campo  -- Profesion -- debe contener 50 caracteres como máximo.', 
+            'profesion.max' =>'El campo  -- Profesion -- debe contener 50 caracteres como máximo.',
+
+            'domicilio.max' =>'El campo  -- Domicilio -- debe contener 45 caracteres como máximo.',
+            'domicilio.required' =>'El campo -- Domicilio -- es obligatorio.', 
 
             //Negocio
             

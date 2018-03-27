@@ -13,7 +13,7 @@ class cliente extends Model
 
     protected $fillable = [
         'idcartera', 'codigo', 'nombre', 'apellido', 'dui','nit','edad',
-        'direccion','telefonocel','telefonofijo','estado', 'lugarexpedicion', 'fechaexpedicion'
+        'direccion','telefonocel','telefonofijo', 'profesion', 'domicilio','estado', 'lugarexpedicion', 'fechaexpedicion'
     ];
 
     /**

@@ -74,6 +74,12 @@
                     <td>DIRECCIÓN:</td>
                     <td>{{ $cliente->direccion}}</td>
                   </tr>
+
+                  <tr>
+                    <td>DOMICILIO:</td>
+                    <td>{{ $cliente->domicilio}}</td>
+                  </tr>
+
                   <tr>
                     <td>NÚMERO TELEFONICO:</td>
                     <td>{{ $cliente->telefonofijo}} - {{ $cliente->telefonocel}}</td>

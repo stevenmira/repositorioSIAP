@@ -107,7 +107,11 @@
             <div class="input-group-addon">
               <i class="fa fa-calendar" aria-hidden="true"></i>
             </div>
-            {!! Form::date('fecha_efectiva', $liquidacion->fechaefectiva, ['class' => 'form-control', 'autofocus'=>'on', 'required' => 'required']) !!}
+            @if($liquidacion->fechaefectiva != null)
+              {!! Form::date('fecha_efectiva', $liquidacion->fechaefectiva, ['class' => 'form-control', 'autofocus'=>'on', 'required' => 'required']) !!}
+            @else
+              {!! Form::date('fecha_efectiva', \Carbon\Carbon::now(), ['class' => 'form-control', 'autofocus'=>'on', 'required' => 'required']) !!}
+            @endif
           </div>
         </div>
 
@@ -130,6 +134,8 @@
       <br>
       <h5 style="font-family: bold;"> NOTA:</h5>
       <p style="font-family: bold; padding: 2px;"> -  De no seleccionar ¿Abono a Capital? se toma el pago como abono a CUOTA DIARIA.</p>
+
+      <p style="font-family: bold; padding: 2px;"> -  La CUOTA DIARIA del cliente es: $ {{$prestamo->cuotadiaria}}</p>
 
       <div class="row">
   <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12"><br>
