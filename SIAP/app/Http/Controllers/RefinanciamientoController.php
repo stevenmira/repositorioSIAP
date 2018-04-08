@@ -200,7 +200,7 @@ class RefinanciamientoController extends Controller
 
                 $idPrestamo = Self::insertarCuentaPrestamo($montoTotal, $cuota, $tipoCredito, $id, $idN,$monto,$cuenta->idcuenta,$fecha,$estadoanterior);
 
-                Self::calculoDetalleLiquidacion($montoTotal, $tipoCredito, $cuota, $id, $idPrestamo, $idN,$fecha);
+                Self::calculoDetalleLiquidacion($montoTotal, $tipoCredito, $cuota, $id, $idPrestamo, $idN,$fecha,$cuenta->idcuenta);
                 return 'Refinanciamiento de tipo NORMAl guardado con exito';
                 break;
 
@@ -208,7 +208,7 @@ class RefinanciamientoController extends Controller
                 $tipoCredito = 4;
                 $idPrestamo = Self::insertarCuentaPrestamo($montoTotal, $cuota, $tipoCredito, $id, $idN,$monto,$cuenta->idcuenta,$fecha,$estadoanterior);
 
-                Self::calculoDetalleLiquidacion($montoTotal, $tipoCredito, $cuota, $id, $idPrestamo, $idN,$fecha);
+                Self::calculoDetalleLiquidacion($montoTotal, $tipoCredito, $cuota, $id, $idPrestamo, $idN,$fecha,$cuenta->idcuenta);
                 return 'Refinanciamiento de tipo Preferencial guardado con exito';
 
                 break;
@@ -217,7 +217,7 @@ class RefinanciamientoController extends Controller
                 $tipoCredito = 5;
                 $idPrestamo = Self::insertarCuentaPrestamo($montoTotal, $cuota, $tipoCredito, $id, $idN,$monto,$cuenta->idcuenta,$fecha,$estadoanterior);
 
-                Self::calculoDetalleLiquidacion($montoTotal, $tipoCredito, $cuota, $id, $idPrestamo, $idN,$fecha);
+                Self::calculoDetalleLiquidacion($montoTotal, $tipoCredito, $cuota, $id, $idPrestamo, $idN,$fecha,$cuenta->idcuenta);
                 return 'Refinanciamiento de tipo ORO guardado con exito';
                 break;
         }
@@ -314,25 +314,28 @@ class RefinanciamientoController extends Controller
     parámetros de entrada: monto, cuota, tipo del credito y ID de cliente
     parámetros de salida: ninguno
      */
-    public function calculoDetalleLiquidacion($montoCapital, $tipoCredito, $cuota, $id, $idPrestamo, $idN,$Date)
+    public function calculoDetalleLiquidacion($montoCapital, $tipoCredito, $cuota, $id, $idPrestamo, $idN,$Date,$idCuenta)
     {
         $clientes = DB::table('cliente')->where('estado','=','ACTIVO')->orderby('cliente.apellido', 'asc')->get();
         $usuarioactual = \Auth::user();
         $nuevoTipoCredito = TipoCredito::where('idtipocredito', $tipoCredito)->first();
         $fechaDos= Carbon::parse($Date);
         $cuenta = Cuenta::where('idnegocio', $idN)->where('estado', '=', 'ACTIVO')->first();
+        $cuentados = Cuenta::where('idcuenta',$idCuenta)->first();
         
  
         $interesDiario = $montoCapital * $nuevoTipoCredito->interes;
     
-        $detalleLiquidacion = new DetalleLiquidacion;
+       /*  $detalleLiquidacion = new DetalleLiquidacion;
         $count = 0;
         $detalleLiquidacion->idcuenta = $cuenta->idcuenta;
         $detalleLiquidacion->fechadiaria = $fechaDos->format('Y-m-d');
         $detalleLiquidacion->estado = "ACTIVO";
         $detalleLiquidacion->idusuario = $usuarioactual->idusuario;
         $detalleLiquidacion->contador = $count;
-        $detalleLiquidacion->save();
+        //esta linea ingresaria el monto anterior 
+       // $detalleLiquidacion->monto = $cuentados->capitalanterior;
+        $detalleLiquidacion->save(); */
         
         $fecha = $fechaDos->addDay();
 

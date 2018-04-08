@@ -181,14 +181,14 @@ class TipoCreditoController extends Controller
         $fechaDos= Carbon::parse($Date);
         $cuenta = Cuenta::where('idnegocio',$idN)->where('estado', '=', 'ACTIVO')->first();
         //incluye tupla de fecha de creacion para las carteras de pagos
-        $detalleLiquidacion = new DetalleLiquidacion;
+      /*   $detalleLiquidacion = new DetalleLiquidacion;
         $count = 0;
         $detalleLiquidacion->idcuenta = $cuenta->idcuenta; 
         $detalleLiquidacion->fechadiaria = $fechaDos->format('Y-m-d');
         $detalleLiquidacion->estado = "ACTIVO";
         $detalleLiquidacion->idusuario = $usuarioactual->idusuario;
         $detalleLiquidacion->contador = $count;
-        $detalleLiquidacion->save();
+        $detalleLiquidacion->save(); */
         ///////////////////////////////////////////////////////////////
         
         $fecha = $fechaDos->addDay();
